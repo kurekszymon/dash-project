@@ -2,7 +2,7 @@ from dash import html, dcc
 
 
 def example():
-    """ "
+    """
     Example function
     """
     return (
