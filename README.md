@@ -14,4 +14,4 @@ This is the project built for `Building products based on data` classes on our m
 - using [Docker](https://www.docker.com/);
 
 ## Authors
-Project was designed and developed by [Szymon Kurek](https://github.com/kurekszymon) and [Przemysław Babulski](https://github.com/pbabulski).
+Project was designed and developed by [Szymon Kurek](https://github.com/kurekszymon) and P.B (Don't know yet if he'd share his personal data).
