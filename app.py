@@ -56,10 +56,11 @@ app.layout = html.Div(
         ),
         dcc.Graph(id="example-graph-2", figure=fig),
         dcc.Graph(id="life-exp-vs-gdp", figure=fig2),
-        example(),
+        # example(),
         generate_html_table(df2),
     ],
 )
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    print('\n\n\nIf you ran this app using `docker compose up` then your app awaits you at http://127.0.0.1:8080\n')
+    app.run_server(debug=True, host="0.0.0.0", port=5000)
