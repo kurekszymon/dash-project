@@ -1,7 +1,8 @@
 from dash import Dash, dcc, html
 import plotly.express as px
 import pandas as pd
-from components import example
+
+# from components import example
 from helpers import generate_html_table
 
 app = Dash(__name__)
@@ -62,5 +63,7 @@ app.layout = html.Div(
 )
 
 if __name__ == "__main__":
-    print('\n\n\nIf you ran this app using `docker compose up` then your app awaits you at http://127.0.0.1:8080\n')
+    print(
+        "\n\n\nIf you ran this app using `docker compose up` then your app awaits you at http://127.0.0.1:8080\n"
+    )
     app.run_server(debug=True, host="0.0.0.0", port=5000)
