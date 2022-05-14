@@ -1,82 +1,76 @@
-from dash import Dash, dcc, html, Output, Input, State
-import plotly.express as px
+from dash import Dash, html, Output, Input, dcc
 import pandas as pd
+import plotly.express as px
+from components.axis_dropdowns import x_dropdown_component, y_dropdown_component
 
-from helpers import generate_table, choose_visualisation
+from constants import dataframes, datasets_options, visualisation_options
+from components import title_component, dataset_dropdown_component
+from components.visualisation_dropdown import visualisation_dropdown_component
+from helpers import choose_visualisation, is_figure, format_render_vis
 
 app = Dash(__name__)
 
-colors = {"background": "#666666", "text": "#7FDBFF"}
+@app.callback(
+    Output("x-dropdown", 'options'),
+    Output("y-dropdown", "options"),
+    Input("dataset-dropdown", "value"),
+)
+def define_axis_options(dataset):
+    # Function returns list because there are 2 outputs
 
-selected_dataframe = "example_df"
-dataframes = {
-    "premier_league_df": pd.read_csv("data/final_dataset_head.csv", header=[1]),
-    "example_df": pd.DataFrame(
-        {
-            "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-            "Amount": [4, 1, 2, 2, 4, 5],
-            "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"],
-        }
-    ),
-    "example_df2": pd.read_csv(
-        "https://gist.githubusercontent.com/chriddyp/c78bf172206ce24f77d6363a2d754b59/raw/c353e8ef842413cae56ae3920b8fd78468aa4cb2/usa-agricultural-exports-2011.csv"
-    ),
-    "example_df3": pd.read_csv(
-        "https://gist.githubusercontent.com/chriddyp/5d1ea79569ed194d432e56108a04d188/raw/a9f9e8076b837d541398e999dcbac2b2826a81f8/gdp-life-exp-2007.csv"
-    )
-}
+    if dataset is None:
+        return [[], []]
+    d = list(dataframes[dataset].columns)
+    return [d, d]
 
 @app.callback(
-    Output('content__vis--chart', 'children'),
-    Input('content__panel--load-df', 'n_clicks'),
-    State('dataset-dropdown', 'value'),
-    State('vis-dropdown', 'value')
+    Output("content__vis", "children"),
+    Output("content__vis", "style"),
+    Output("content__fig", "figure"),
+    Output("content__fig", "style"),
+    Input("dataset-dropdown", "value"),
+    Input("vis-dropdown", "value"),
+    Input("x-dropdown", "value"),
+    Input("y-dropdown", "value"),
 )
-def update_output(n_clicks, dataset, visualisation):
-    if not dataset and not visualisation:
-        return "Define dataset and visualisation"
+def render_vis(dataset, visualisation, x, y):
+    if not dataset or not visualisation:
+        return format_render_vis()
 
-    return choose_visualisation(visualisation=visualisation, dataframe=dataframes[dataset])
-    
+    try:
+        fig = choose_visualisation(
+            visualisation=visualisation, dataframe=dataframes[dataset], x=x, y=y
+        )
+
+        if(is_figure(fig)):
+            # return [{}, {"display": "none"}, fig, {"display: block"}]
+            return format_render_vis(fig=fig, vis={})
+            return [{}, {"display": "none"}, fig, {"display": "block"}]
+        
+        return [fig, {"display": "flex"}, {}, {"display": "none"}]
+    except Exception as e:
+        print(e)
+        return ["Something is no yes with your visualisation, try different parameters", {"display": "flex"}, {}, {"display": "none"}]
 
 app.layout = html.Div(
     children=[
-        html.Div(
-            className="title",
-            children=[
-                html.H1(children=[html.Code("Dash"), "-board project"]),
-                html.H2("Developed by"),
-                html.H3("Przemysław Babulski, Szymon Kurek"),
-            ],
-        ),
+        title_component(),
         html.Div(
             className="content",
             children=[
                 html.Div(
                     className="content__panel",
                     children=[
-                        dcc.Dropdown(
-                            options=[
-                                {"label": "df1", "value": "example_df"},
-                                {"label": "df2", "value": "example_df2"},
-                                {"label": "Premier League", "value": "premier_league_df"},
-                            ],
-                            id="dataset-dropdown",
-                        ),
-                        dcc.Dropdown(
-                            options=[
-                                {"label": "Table", "value": "Table"},
-                                {"label": "Bar Chart", "value": "Bar Chart"},
-                                {"label": "Line Chart", "value": "Line Chart"},
-                            ],
-                            id="vis-dropdown",
-                        ),
-                        html.Button("Generate Chart", id="content__panel--load-df", n_clicks=0),
+                        dataset_dropdown_component(datasets_options),
+                        visualisation_dropdown_component(visualisation_options),
+                        x_dropdown_component(),
+                        y_dropdown_component()
                     ],
                 ),
-                html.Div(className="content__vis", children=[
-                    html.Div(id="content__vis--chart"),
-                ]),
+                html.Div(
+                    id="content__vis",
+                ),
+                dcc.Graph(id="content__fig")
             ],
         ),
     ],
