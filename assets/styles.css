@@ -1,0 +1,33 @@
+.title {
+  text-align: center;
+  font-size: 14px;
+}
+
+.title code {
+  color: blue;
+}
+
+.content {
+  height: 80vh;
+  width: 95vw;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+.content__panel {
+  height: 100%;
+  width: 30%;
+  background-color: #ddd;
+}
+
+.content__vis {
+  height: 100%;
+  width: 65%;
+  background-color: #ddd;
+  overflow: scroll;
+}
+
+.placeholder {
+  display: none;
+}
