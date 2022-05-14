@@ -24,7 +24,7 @@ def generate_table(dataframe):
     )
 
 
-def generate_bar_chart(dataframe, x, y):
-    if not x or not y:
+def generate_bar_chart(dataframe, x_axis, y_axis):
+    if not x_axis or not y_axis:
         return "Define x and y axis"
-    return px.bar(dataframe, x=x, y=y, barmode="group")
+    return px.bar(dataframe, x=x_axis, y=y_axis, barmode="group")

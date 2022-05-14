@@ -1,17 +1,21 @@
 from dash import Dash, html, Output, Input, dcc
-import pandas as pd
-import plotly.express as px
-from components.axis_dropdowns import x_dropdown_component, y_dropdown_component
 
 from constants import dataframes, datasets_options, visualisation_options
-from components import title_component, dataset_dropdown_component
-from components.visualisation_dropdown import visualisation_dropdown_component
+from components import (
+    title_component,
+    dataset_dropdown_component,
+    x_dropdown_component,
+    y_dropdown_component,
+    visualisation_dropdown_component,
+)
 from helpers import choose_visualisation, is_figure, format_render_vis
 
 app = Dash(__name__)
 
+
+# add callback for disabling x and y axis for table
 @app.callback(
-    Output("x-dropdown", 'options'),
+    Output("x-dropdown", "options"),
     Output("y-dropdown", "options"),
     Input("dataset-dropdown", "value"),
 )
@@ -20,8 +24,9 @@ def define_axis_options(dataset):
 
     if dataset is None:
         return [[], []]
-    d = list(dataframes[dataset].columns)
-    return [d, d]
+    drodpown_options = list(dataframes[dataset].columns)
+    return [drodpown_options, drodpown_options]
+
 
 @app.callback(
     Output("content__vis", "children"),
@@ -33,24 +38,29 @@ def define_axis_options(dataset):
     Input("x-dropdown", "value"),
     Input("y-dropdown", "value"),
 )
-def render_vis(dataset, visualisation, x, y):
+def render_vis(dataset, visualisation, x_axis, y_axis):
     if not dataset or not visualisation:
-        return format_render_vis()
+        return format_render_vis({})
 
     try:
         fig = choose_visualisation(
-            visualisation=visualisation, dataframe=dataframes[dataset], x=x, y=y
+            visualisation=visualisation,
+            dataframe=dataframes[dataset],
+            x_axis=x_axis,
+            y_axis=y_axis,
         )
 
-        if(is_figure(fig)):
-            # return [{}, {"display": "none"}, fig, {"display: block"}]
+        if is_figure(fig):
             return format_render_vis(fig=fig, vis={})
-            return [{}, {"display": "none"}, fig, {"display": "block"}]
-        
-        return [fig, {"display": "flex"}, {}, {"display": "none"}]
+
+        return format_render_vis(vis=fig, fig={})
     except Exception as e:
         print(e)
-        return ["Something is no yes with your visualisation, try different parameters", {"display": "flex"}, {}, {"display": "none"}]
+        return format_render_vis(
+            vis="Something is wrong, and it's most likely a bug. Please report it and for now, try different parameters",
+            fig={},
+        )
+
 
 app.layout = html.Div(
     children=[
@@ -64,13 +74,13 @@ app.layout = html.Div(
                         dataset_dropdown_component(datasets_options),
                         visualisation_dropdown_component(visualisation_options),
                         x_dropdown_component(),
-                        y_dropdown_component()
+                        y_dropdown_component(),
                     ],
                 ),
                 html.Div(
                     id="content__vis",
                 ),
-                dcc.Graph(id="content__fig")
+                dcc.Graph(id="content__fig"),
             ],
         ),
     ],
