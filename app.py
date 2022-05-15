@@ -54,8 +54,8 @@ def render_vis(dataset, visualisation, x_axis, y_axis):
             return format_render_vis(fig=fig, vis={})
 
         return format_render_vis(vis=fig, fig={})
-    except Exception as e:
-        print(e)
+    except Exception as error:
+        print(error)
         return format_render_vis(
             vis="Something is wrong, and it's most likely a bug. Please report it and for now, try different parameters",
             fig={},

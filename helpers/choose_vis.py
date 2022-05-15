@@ -1,6 +1,14 @@
-from .generate_charts import generate_bar_chart, generate_line_chart, generate_table, generate_scatter_chart, generate_heatmap, generate_pie_chart
+from .generate_charts import (
+    generate_bar_chart,
+    generate_line_chart,
+    generate_table,
+    generate_scatter_chart,
+    generate_heatmap,
+    generate_pie_chart,
+)
 
 from constants import charts
+
 
 def choose_visualisation(visualisation, dataframe, x_axis=None, y_axis=None):
     if visualisation == charts["table"]:
