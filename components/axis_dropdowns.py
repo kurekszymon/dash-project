@@ -6,4 +6,4 @@ def x_dropdown_component():
 
 
 def y_dropdown_component():
-    return dcc.Dropdown(options=[], id="y-dropdown", placeholder="Select measure")
+    return dcc.Dropdown(options=[], id="y-dropdown", placeholder="Select Measure")
