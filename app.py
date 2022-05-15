@@ -1,3 +1,4 @@
+from os import environ
 from dash import Dash, html, Output, Input, dcc, State
 import dash_bootstrap_components as dbc
 
@@ -163,4 +164,5 @@ if __name__ == "__main__":
     print(
         "\n\n\nIf you ran this app using `docker compose up` then your app awaits you at http://127.0.0.1:8080\n"
     )
-    app.run_server(debug=True, host="0.0.0.0", port=5000)
+    is_prod = environ.get['PROD']
+    app.run_server(debug=not bool(is_prod), host="0.0.0.0", port=3001)
