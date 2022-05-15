@@ -1,19 +1,44 @@
-from dash import Dash, html, Output, Input, dcc
+from dash import Dash, html, Output, Input, dcc, State
+import dash_bootstrap_components as dbc
 
 from constants import dataframes, datasets_options, visualisation_options
 from components import (
     title_component,
+    upload_component,
     dataset_dropdown_component,
     x_dropdown_component,
     y_dropdown_component,
     visualisation_dropdown_component,
 )
-from helpers import choose_visualisation, is_figure, format_render_vis
+from helpers import choose_visualisation, is_figure, format_render_vis, parse_upload_contents
 
-app = Dash(__name__)
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
 
+@app.callback(
+    Output("upload-data", "contents"),
+    Output("x-dropdown", "value"),
+    Output("y-dropdown", "value"),
+    Output("vis-dropdown", "value"),
+    Input("remove-uploaded-file", "n_clicks")
+)
+def remove_uploaded_file(click):
+    return [None] * 4
 
-# add callback for disabling x and y axis for table
+@app.callback(
+    Output("dataset-dropdown", "placeholder"),
+    Output("output-data-upload-text", "children"),
+    Output("output-data-upload", "className"),
+    Output("dataset-dropdown", "disabled"),
+    Output("upload-data", "disabled"),
+    Input("upload-data", "contents"),
+    State("upload-data", "filename")
+)
+def block_datasets(file_content, file_name):
+    is_file = bool(file_content)
+    is_visible = "visible" if is_file else "hidden"
+    message = "Remove uploaded dataset to choose" if is_file else "Select Datasets or"
+    return [message, file_name, is_visible, is_file, is_file]
+
 @app.callback(
     Output("x-dropdown", "options"),
     Output("y-dropdown", "options"),
@@ -21,13 +46,22 @@ app = Dash(__name__)
     Output("y-dropdown", "className"),
     Input("dataset-dropdown", "value"),
     Input("vis-dropdown", "value"),
+    Input('upload-data', 'contents'),
+    State('upload-data', 'filename')
 )
-def define_axis_options(dataset, visualisation):
-    if dataset is None or visualisation is None or visualisation == "Table":
+def define_axis_options(dataset, visualisation, file_content, file_name):
+    if (not dataset or not file_content) and (not visualisation or visualisation == "Table"):
         # should not show Dimension and Measure Axises if not needed.
         return [[], [], "hidden", "hidden"]
-
-    drodpown_options = list(dataframes[dataset].columns)
+    
+    if file_content and file_name:
+        dataframe = parse_upload_contents(file_content, file_name)
+    elif dataset: 
+        dataframe = dataframes[dataset]
+    else: 
+        return [[], [], "hidden", "hidden"]
+    
+    drodpown_options = list(dataframe.columns)
     return [drodpown_options, drodpown_options, "visible", "visible"]
 
 
@@ -40,15 +74,17 @@ def define_axis_options(dataset, visualisation):
     Input("vis-dropdown", "value"),
     Input("x-dropdown", "value"),
     Input("y-dropdown", "value"),
+    Input('upload-data', 'contents'),
+    State('upload-data', 'filename')
 )
-def render_vis(dataset, visualisation, dimension, measure):
-    if not dataset or not visualisation:
+def render_vis(dataset, visualisation, dimension, measure, file_content, file_name):
+    if not visualisation and not dataset or not file_content:
         return format_render_vis({})
 
     try:
         fig = choose_visualisation(
             visualisation,
-            dataframes[dataset],
+            parse_upload_contents(file_content, file_name) if file_content else dataframes[dataset],
             dimension,
             measure,
         )
@@ -64,7 +100,6 @@ def render_vis(dataset, visualisation, dimension, measure):
             fig={},
         )
 
-
 app.layout = html.Div(
     children=[
         title_component(),
@@ -75,6 +110,7 @@ app.layout = html.Div(
                     className="content__panel",
                     children=[
                         dataset_dropdown_component(datasets_options),
+                        upload_component(),
                         visualisation_dropdown_component(visualisation_options),
                         x_dropdown_component(),
                         y_dropdown_component(),

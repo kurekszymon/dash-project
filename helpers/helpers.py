@@ -1,3 +1,6 @@
+import base64
+import io
+import pandas as pd
 from plotly.basedatatypes import BaseFigure
 
 
@@ -22,3 +25,19 @@ def format_render_vis(
         styles_fig = {"display": "none"}
         styles_vis = {"display": "flex"}
     return [vis, styles_vis, fig, styles_fig]
+
+
+def parse_upload_contents(contents, filename):
+    _, content_string = contents.split(",")
+
+    decoded = base64.b64decode(content_string)
+    try:
+        if "csv" in filename:
+            dataframe = pd.read_csv(io.StringIO(decoded.decode("utf-8")))
+        elif "xls" in filename:
+            dataframe = pd.read_excel(io.BytesIO(decoded))
+    except Exception as exception:
+        print(exception)
+        return "There was an error processing this file."
+
+    return dataframe

@@ -1,6 +1,7 @@
 .title {
-  text-align: center;
+  text-align: right;
   font-size: 14px;
+  margin: 3vw;
 }
 
 .title code {
@@ -29,9 +30,27 @@
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .visible {
   display: block;
+}
+
+#upload-data {
+  line-height: 60px;
+  border-width: 1px;
+  border-style: dashed;
+  border-radius: 5px;
+  text-align: center;
+  margin: 10px;
+}
+
+#output-data-upload {
+  width: 50%;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
