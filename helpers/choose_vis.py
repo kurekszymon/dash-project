@@ -10,14 +10,13 @@ from .generate_charts import (
 )
 
 
-# Rename x/y axis to dimension/measure
-def choose_visualisation(visualisation, dataframe, x_axis=None, y_axis=None):
+def choose_visualisation(visualisation, dataframe, dimension=None, measure=None):
     """Determines which `visualisation` to generate and returns it."""
     return {
         charts["table"]: generate_table(dataframe),
-        charts["bar"]: generate_bar_chart(dataframe, x_axis, y_axis),
-        charts["line"]: generate_line_chart(dataframe, x_axis, y_axis),
-        charts["scatter"]: generate_scatter_chart(dataframe, x_axis, y_axis),
-        charts["heatmap"]: generate_heatmap(dataframe, x_axis, y_axis),
-        charts["pie"]: generate_pie_chart(dataframe, x_axis, y_axis),
+        charts["bar"]: generate_bar_chart(dataframe, dimension, measure),
+        charts["line"]: generate_line_chart(dataframe, dimension, measure),
+        charts["scatter"]: generate_scatter_chart(dataframe, dimension, measure),
+        charts["heatmap"]: generate_heatmap(dataframe, dimension, measure),
+        charts["pie"]: generate_pie_chart(dataframe, dimension, measure),
     }.get(visualisation, "Choose proper visualisation")

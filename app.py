@@ -41,16 +41,16 @@ def define_axis_options(dataset, visualisation):
     Input("x-dropdown", "value"),
     Input("y-dropdown", "value"),
 )
-def render_vis(dataset, visualisation, x_axis, y_axis):
+def render_vis(dataset, visualisation, dimension, measure):
     if not dataset or not visualisation:
         return format_render_vis({})
 
     try:
         fig = choose_visualisation(
-            visualisation=visualisation,
-            dataframe=dataframes[dataset],
-            x_axis=x_axis,
-            y_axis=y_axis,
+            visualisation,
+            dataframes[dataset],
+            dimension,
+            measure,
         )
 
         if is_figure(fig):
