@@ -1,11 +1,14 @@
 import pandas as pd
 
-charts = {"table": "Table", "line": "Line Chart", "bar": "Bar Chart"}
+charts = {"table": "Table", "line": "Line Chart", "bar": "Bar Chart", "scatter": "Scatter Chart", "heatmap": "Heatmap", "pie": "Pie Chart"}
 
 visualisation_options = [
     {"label": charts["table"], "value": charts["table"]},
     {"label": charts["bar"], "value": charts["bar"]},
     {"label": charts["line"], "value": charts["line"]},
+    {"label": charts["scatter"], "value": charts["scatter"]},
+    {"label": charts["heatmap"], "value": charts["heatmap"]},
+    {"label": charts["pie"], "value": charts["pie"]},
 ]
 
 
