@@ -3,8 +3,9 @@ import dash_bootstrap_components as dbc
 
 from constants import dataframes, datasets_options, visualisation_options
 from components import (
-    title_component,
+    header_component,
     upload_component,
+    configurations_header_component,
     dataset_dropdown_component,
     x_dropdown_component,
     y_dropdown_component,
@@ -132,13 +133,18 @@ def render_vis(dataset, visualisation, dimension, measure, file_content, file_na
 
 app.layout = html.Div(
     children=[
-        title_component(),
+        header_component(),
         html.Div(
             className="content",
             children=[
                 html.Div(
+                    id="content__vis",
+                ),
+                dcc.Graph(id="content__fig"),
+                html.Div(
                     className="content__panel",
                     children=[
+                        configurations_header_component(),
                         dataset_dropdown_component(datasets_options),
                         upload_component(),
                         visualisation_dropdown_component(visualisation_options),
@@ -146,10 +152,6 @@ app.layout = html.Div(
                         y_dropdown_component(),
                     ],
                 ),
-                html.Div(
-                    id="content__vis",
-                ),
-                dcc.Graph(id="content__fig"),
             ],
         ),
     ],
