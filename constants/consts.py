@@ -26,7 +26,7 @@ datasets_options = [
 ]
 
 dataframes = {
-    "premier_league_df": pd.read_csv("data/final_dataset_head.csv", header=[1]),
+    "premier_league_df": pd.read_csv("data/premier_league.csv"),
     "example_df": pd.DataFrame(
         {
             "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
