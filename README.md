@@ -27,7 +27,7 @@ This is the project built for `Building products based on data` classes on our m
 - Run `python -m venv {env name}`
   - If you are using *Bash / zsh / other linux-like* terminals run `source {env name}/bin/activate`
   - If you are using *Powershell* or *CMD* run `./{env name}/scripts/Activate.{proper extension, i.e. ps1}`
-- Open [app](http://0.0.0.0:3001)
+- Open [app](http://0.0.0.0:5000)
 
 ## Authors
 Project was designed and developed by [Szymon Kurek](https://github.com/kurekszymon) and [Przemysław Babulski](https://github.com/pbabulski).

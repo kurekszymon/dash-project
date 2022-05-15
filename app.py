@@ -163,4 +163,4 @@ if __name__ == "__main__":
     print(
         "\n\n\nIf you ran this app using `docker compose up` then your app awaits you at http://127.0.0.1:8080\n"
     )
-    app.run_server(debug=False, host="0.0.0.0", port=3001)
+    app.run_server(debug=True, host="0.0.0.0", port=5000)
