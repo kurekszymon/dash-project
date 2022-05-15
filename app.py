@@ -32,6 +32,7 @@ app = Dash(
     Input("remove-uploaded-file", "n_clicks"),
 )
 def remove_uploaded_file(click):
+    # pylint: disable=unused-argument
     return [None] * 4
 
 
@@ -105,6 +106,7 @@ def define_axis_options(dataset, visualisation, file_content, file_name):
     State("upload-data", "filename"),
 )
 def render_vis(dataset, visualisation, dimension, measure, file_content, file_name):
+    # pylint: disable=too-many-arguments
     if (not visualisation and not dataset) or (not visualisation and not file_content):
         return format_render_vis({})
 
