@@ -3,6 +3,8 @@ import io
 import pandas as pd
 from plotly.basedatatypes import BaseFigure
 
+from components import error_component
+
 
 def is_figure(obj):
     """Checks if object is instance of `BaseFigure` class
@@ -12,10 +14,7 @@ def is_figure(obj):
     return isinstance(obj, BaseFigure)
 
 
-def format_render_vis(
-    fig,
-    vis="Define dataset and visualisation",
-):
+def format_render_vis(fig, vis=error_component("Define dataset and visualisation")):
     """Designed for render_vis function, returns 4 values, as needed for Dash Outputs,
     `could be further refactored` to assign class instead of style"""
     if not vis:
@@ -38,6 +37,6 @@ def parse_upload_contents(contents, filename):
             dataframe = pd.read_excel(io.BytesIO(decoded))
     except Exception as exception:
         print(exception)
-        return "There was an error processing this file."
+        return error_component("There was an error processing this file.")
 
     return dataframe

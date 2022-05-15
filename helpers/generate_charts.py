@@ -1,5 +1,7 @@
-from dash import html, dcc
+from dash import html
 import plotly.express as px
+
+from components import error_component
 
 
 def generate_table(dataframe):
@@ -15,14 +17,11 @@ def generate_table(dataframe):
                     for i in range(min(len(dataframe), 100))
                 ]
             ),
-            dcc.Interval(
-                id="interval-component", interval=1000, n_intervals=0  # in milliseconds
-            ),
         ],
     )
 
 
-PROVIDE_MORE_DETAILS = "Define dimension and measure"
+PROVIDE_MORE_DETAILS = error_component("Define dimension and measure")
 
 # maybe add title possibility?
 def generate_bar_chart(dataframe, dimension, measure):

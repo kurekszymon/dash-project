@@ -9,20 +9,30 @@ from components import (
     x_dropdown_component,
     y_dropdown_component,
     visualisation_dropdown_component,
+    error_component,
 )
-from helpers import choose_visualisation, is_figure, format_render_vis, parse_upload_contents
+from helpers import (
+    choose_visualisation,
+    is_figure,
+    format_render_vis,
+    parse_upload_contents,
+)
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
+app = Dash(
+    __name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME]
+)
 
+# Think how to extract callbacks to different file.
 @app.callback(
     Output("upload-data", "contents"),
     Output("x-dropdown", "value"),
     Output("y-dropdown", "value"),
     Output("vis-dropdown", "value"),
-    Input("remove-uploaded-file", "n_clicks")
+    Input("remove-uploaded-file", "n_clicks"),
 )
 def remove_uploaded_file(click):
     return [None] * 4
+
 
 @app.callback(
     Output("dataset-dropdown", "placeholder"),
@@ -32,15 +42,26 @@ def remove_uploaded_file(click):
     Output("upload-data", "disabled"),
     Input("dataset-dropdown", "value"),
     Input("upload-data", "contents"),
-    State("upload-data", "filename")
+    State("upload-data", "filename"),
 )
 def block_datasets(dataset, file_content, file_name):
     is_file_uploaded = bool(file_content)
     is_dataset_chosen = bool(dataset)
 
     is_visible = "visible" if is_file_uploaded else "hidden"
-    message = "Remove uploaded dataset to choose" if is_file_uploaded else "Select Datasets or"
-    return [message, file_name, is_visible, is_file_uploaded, is_file_uploaded or is_dataset_chosen]
+    message = (
+        "Remove uploaded dataset to choose"
+        if is_file_uploaded
+        else "Select Datasets or"
+    )
+    return [
+        message,
+        file_name,
+        is_visible,
+        is_file_uploaded,
+        is_file_uploaded or is_dataset_chosen,
+    ]
+
 
 @app.callback(
     Output("x-dropdown", "options"),
@@ -49,21 +70,23 @@ def block_datasets(dataset, file_content, file_name):
     Output("y-dropdown", "className"),
     Input("dataset-dropdown", "value"),
     Input("vis-dropdown", "value"),
-    Input('upload-data', 'contents'),
-    State('upload-data', 'filename')
+    Input("upload-data", "contents"),
+    State("upload-data", "filename"),
 )
 def define_axis_options(dataset, visualisation, file_content, file_name):
-    if (not dataset or not file_content) and (not visualisation or visualisation == "Table"):
+    if (not dataset or not file_content) and (
+        not visualisation or visualisation == "Table"
+    ):
         # should not show Dimension and Measure Axises if not needed.
         return [[], [], "hidden", "hidden"]
-    
+
     if file_content and file_name:
         dataframe = parse_upload_contents(file_content, file_name)
-    elif dataset: 
+    elif dataset:
         dataframe = dataframes[dataset]
-    else: 
+    else:
         return [[], [], "hidden", "hidden"]
-    
+
     drodpown_options = list(dataframe.columns)
     return [drodpown_options, drodpown_options, "visible", "visible"]
 
@@ -77,8 +100,8 @@ def define_axis_options(dataset, visualisation, file_content, file_name):
     Input("vis-dropdown", "value"),
     Input("x-dropdown", "value"),
     Input("y-dropdown", "value"),
-    Input('upload-data', 'contents'),
-    State('upload-data', 'filename')
+    Input("upload-data", "contents"),
+    State("upload-data", "filename"),
 )
 def render_vis(dataset, visualisation, dimension, measure, file_content, file_name):
     if (not visualisation and not dataset) or (not visualisation and not file_content):
@@ -87,7 +110,9 @@ def render_vis(dataset, visualisation, dimension, measure, file_content, file_na
     try:
         fig = choose_visualisation(
             visualisation,
-            parse_upload_contents(file_content, file_name) if file_content else dataframes[dataset],
+            parse_upload_contents(file_content, file_name)
+            if file_content
+            else dataframes[dataset],
             dimension,
             measure,
         )
@@ -97,11 +122,13 @@ def render_vis(dataset, visualisation, dimension, measure, file_content, file_na
 
         return format_render_vis(vis=fig, fig={})
     except Exception as error:
+        # Think if I can fix the fact that two callbacks should be merged into one to not cause exceptions.
         print(error)
         return format_render_vis(
-            vis="Something is wrong, try different parameters",
+            vis=error_component("Something is wrong, try different parameters"),
             fig={},
         )
+
 
 app.layout = html.Div(
     children=[

@@ -1,3 +1,4 @@
+from components import error_component
 from constants import charts
 
 from .generate_charts import (
@@ -19,4 +20,4 @@ def choose_visualisation(visualisation, dataframe, dimension=None, measure=None)
         charts["scatter"]: generate_scatter_chart(dataframe, dimension, measure),
         charts["heatmap"]: generate_heatmap(dataframe, dimension, measure),
         charts["pie"]: generate_pie_chart(dataframe, dimension, measure),
-    }.get(visualisation, "Choose proper visualisation")
+    }.get(visualisation, error_component("Choose proper visualisation"))
