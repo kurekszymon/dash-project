@@ -10,17 +10,14 @@ from .generate_charts import (
 )
 
 
+# Rename x/y axis to dimension/measure
 def choose_visualisation(visualisation, dataframe, x_axis=None, y_axis=None):
-    if visualisation == charts["table"]:
-        return generate_table(dataframe)
-    if visualisation == charts["bar"]:
-        return generate_bar_chart(dataframe, x_axis, y_axis)
-    if visualisation == charts["line"]:
-        return generate_line_chart(dataframe, x_axis, y_axis)
-    if visualisation == charts["scatter"]:
-        return generate_scatter_chart(dataframe, x_axis, y_axis)
-    if visualisation == charts["heatmap"]:
-        return generate_heatmap(dataframe, x_axis, y_axis)
-    if visualisation == charts["pie"]:
-        return generate_pie_chart(dataframe, x_axis, y_axis)
-    return "Choose proper visualisation"
+    """Determines which `visualisation` to generate and returns it."""
+    return {
+        charts["table"]: generate_table(dataframe),
+        charts["bar"]: generate_bar_chart(dataframe, x_axis, y_axis),
+        charts["line"]: generate_line_chart(dataframe, x_axis, y_axis),
+        charts["scatter"]: generate_scatter_chart(dataframe, x_axis, y_axis),
+        charts["heatmap"]: generate_heatmap(dataframe, x_axis, y_axis),
+        charts["pie"]: generate_pie_chart(dataframe, x_axis, y_axis),
+    }.get(visualisation, "Choose proper visualisation")

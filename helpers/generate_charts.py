@@ -3,9 +3,7 @@ import plotly.express as px
 
 
 def generate_table(dataframe):
-    """
-    Example helper
-    """
+    """Generates Custom HTML Table based on `dataframe`"""
     return html.Table(
         [
             html.Thead(html.Tr([html.Th(col) for col in dataframe.columns])),

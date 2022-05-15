@@ -17,15 +17,18 @@ app = Dash(__name__)
 @app.callback(
     Output("x-dropdown", "options"),
     Output("y-dropdown", "options"),
+    Output("x-dropdown", "className"),
+    Output("y-dropdown", "className"),
     Input("dataset-dropdown", "value"),
+    Input("vis-dropdown", "value"),
 )
-def define_axis_options(dataset):
-    # Function returns list because there are 2 outputs
+def define_axis_options(dataset, visualisation):
+    if dataset is None or visualisation is None or visualisation == "Table":
+        # should not show Dimension and Measure Axises if not needed.
+        return [[], [], "hidden", "hidden"]
 
-    if dataset is None:
-        return [[], []]
     drodpown_options = list(dataframes[dataset].columns)
-    return [drodpown_options, drodpown_options]
+    return [drodpown_options, drodpown_options, "visible", "visible"]
 
 
 @app.callback(
