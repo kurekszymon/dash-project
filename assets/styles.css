@@ -1,6 +1,5 @@
 .title {
   text-align: right;
-  font-size: 14px;
   margin: 3vw;
 }
 
@@ -9,7 +8,7 @@
 }
 
 .content {
-  height: 80vh;
+  height: 70vh;
   width: 95vw;
   margin: 0 auto;
   display: flex;
@@ -19,13 +18,17 @@
 .content__panel {
   height: 100%;
   width: 30%;
-  background-color: #ddd;
+  border: 2px dashed black;
+}
+
+.content__panel > div {
+  margin: 20px;
 }
 
 #content__vis {
   height: 100%;
   width: 65%;
-  background-color: #ddd;
+  border: 2px dashed black;
   overflow: scroll;
 }
 

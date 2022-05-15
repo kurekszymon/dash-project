@@ -30,14 +30,17 @@ def remove_uploaded_file(click):
     Output("output-data-upload", "className"),
     Output("dataset-dropdown", "disabled"),
     Output("upload-data", "disabled"),
+    Input("dataset-dropdown", "value"),
     Input("upload-data", "contents"),
     State("upload-data", "filename")
 )
-def block_datasets(file_content, file_name):
-    is_file = bool(file_content)
-    is_visible = "visible" if is_file else "hidden"
-    message = "Remove uploaded dataset to choose" if is_file else "Select Datasets or"
-    return [message, file_name, is_visible, is_file, is_file]
+def block_datasets(dataset, file_content, file_name):
+    is_file_uploaded = bool(file_content)
+    is_dataset_chosen = bool(dataset)
+
+    is_visible = "visible" if is_file_uploaded else "hidden"
+    message = "Remove uploaded dataset to choose" if is_file_uploaded else "Select Datasets or"
+    return [message, file_name, is_visible, is_file_uploaded, is_file_uploaded or is_dataset_chosen]
 
 @app.callback(
     Output("x-dropdown", "options"),
@@ -78,7 +81,7 @@ def define_axis_options(dataset, visualisation, file_content, file_name):
     State('upload-data', 'filename')
 )
 def render_vis(dataset, visualisation, dimension, measure, file_content, file_name):
-    if not visualisation and not dataset or not file_content:
+    if (not visualisation and not dataset) or (not visualisation and not file_content):
         return format_render_vis({})
 
     try:
@@ -96,7 +99,7 @@ def render_vis(dataset, visualisation, dimension, measure, file_content, file_na
     except Exception as error:
         print(error)
         return format_render_vis(
-            vis="Something is wrong, and it's most likely a bug. Please report it and for now, try different parameters",
+            vis="Something is wrong, try different parameters",
             fig={},
         )
 
