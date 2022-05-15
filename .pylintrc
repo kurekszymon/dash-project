@@ -4,4 +4,5 @@ disable=
     trailing-comma-tuple, # black interferes 
     missing-module-docstring, # no needed for small project like this one.
     missing-function-docstring, # no needed for small project like this one.
-    W0703
+    W0703,
+    R0911 # should probably use switch case, but I dont care

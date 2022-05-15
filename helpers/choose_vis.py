@@ -1,3 +1,5 @@
+from constants import charts
+
 from .generate_charts import (
     generate_bar_chart,
     generate_line_chart,
@@ -6,8 +8,6 @@ from .generate_charts import (
     generate_heatmap,
     generate_pie_chart,
 )
-
-from constants import charts
 
 
 def choose_visualisation(visualisation, dataframe, x_axis=None, y_axis=None):

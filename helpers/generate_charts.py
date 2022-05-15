@@ -23,6 +23,7 @@ def generate_table(dataframe):
         ],
     )
 
+
 PROVIDE_MORE_DETAILS = "Define dimension and measure"
 
 # maybe add title possibility?
