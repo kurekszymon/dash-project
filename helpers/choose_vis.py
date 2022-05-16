@@ -1,3 +1,4 @@
+from components import error_component
 from constants import charts
 
 from .generate_charts import (
@@ -10,17 +11,13 @@ from .generate_charts import (
 )
 
 
-def choose_visualisation(visualisation, dataframe, x_axis=None, y_axis=None):
-    if visualisation == charts["table"]:
-        return generate_table(dataframe)
-    if visualisation == charts["bar"]:
-        return generate_bar_chart(dataframe, x_axis, y_axis)
-    if visualisation == charts["line"]:
-        return generate_line_chart(dataframe, x_axis, y_axis)
-    if visualisation == charts["scatter"]:
-        return generate_scatter_chart(dataframe, x_axis, y_axis)
-    if visualisation == charts["heatmap"]:
-        return generate_heatmap(dataframe, x_axis, y_axis)
-    if visualisation == charts["pie"]:
-        return generate_pie_chart(dataframe, x_axis, y_axis)
-    return "Choose proper visualisation"
+def choose_visualisation(visualisation, dataframe, dimension=None, measure=None):
+    """Determines which `visualisation` to generate and returns it."""
+    return {
+        charts["table"]: generate_table(dataframe),
+        charts["bar"]: generate_bar_chart(dataframe, dimension, measure),
+        charts["line"]: generate_line_chart(dataframe, dimension, measure),
+        charts["scatter"]: generate_scatter_chart(dataframe, dimension, measure),
+        charts["heatmap"]: generate_heatmap(dataframe, dimension, measure),
+        charts["pie"]: generate_pie_chart(dataframe, dimension, measure),
+    }.get(visualisation, error_component("Choose proper visualisation"))
