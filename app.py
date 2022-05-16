@@ -23,6 +23,8 @@ app = Dash(
     __name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME]
 )
 
+web_server = app.server
+
 # Think how to extract callbacks to different file.
 @app.callback(
     Output("upload-data", "contents"),
