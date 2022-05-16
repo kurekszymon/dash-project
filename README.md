@@ -2,6 +2,9 @@
 
 This is the project built for `Building products based on data` classes on our master's degree. 
 
+<center> [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=kurekszymon_dash-project&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=kurekszymon_dash-project) </center>
+
+
 ## Requirements 
 
 - built with [Dash](https://dash.plotly.com/) or [Shiny](https://shiny.rstudio.com/);
