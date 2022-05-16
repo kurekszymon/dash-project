@@ -34,6 +34,8 @@ flask==2.1.1
     #   flask-compress
 flask-compress==1.11
     # via dash
+gunicorn==20.1.0
+    # via -r requirements.in
 isort==5.10.1
     # via pylint
 itsdangerous==2.1.2
