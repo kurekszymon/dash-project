@@ -25,7 +25,6 @@ datasets_options = [
     {"label": "Premier League", "value": "premier_league_df"},
     {"label": "Bundesliga 1", "value": "bundesliga_df"},
     {"label": "La Liga", "value": "la_liga_df"},
-    {"label": "Chamions League Clubs Ranking", "value": "cl_clubs_ranking"},
     {"label": "Chamions League Countries Ranking", "value": "cl_countries_ranking"},
     {"label": "Chamions League Players Appearances", "value": "cl_players_appearances"},
     {"label": "Chamions League Players Goals", "value": "cl_players_goals"},
@@ -36,7 +35,7 @@ dataframes = {
     "premier_league_df": pd.read_csv("data/premier_league.csv"),
     "bundesliga_df": pd.read_csv("data/Bundesliga_1_Seasons_11_12_to_20_21.csv"),
     "la_liga_df": pd.read_csv("data/LaLiga_Matches_1995-2021.csv"),
-    "cl_clubs_ranking": pd.read_csv("data/Champions_League_AllTimeRankingByClub.csv"),
+
     "cl_countries_ranking": pd.read_csv("data/Champions_League_AllTimeRankingByCountry.csv"),
     "cl_players_appearances": pd.read_csv("data/Champions_League_PlayerAppearDetails.csv"),
     "cl_players_goals": pd.read_csv("data/Champions_League_PlayerGoalDetails.csv"),
