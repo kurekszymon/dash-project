@@ -60,6 +60,11 @@
   margin: 10px;
 }
 
+#upload-data h1 {
+  line-height: 2;
+  font-size: 1em;
+}
+
 #upload-data p {
   line-height: 1;
   font-size: 0.8em;

@@ -6,7 +6,7 @@ def upload_component():
         [
             dcc.Upload(
                 id="upload-data",
-                children=html.Div(["Select file or drop it here", html.P("(*.csv, *.xls)")]),
+                children=html.Div([html.H1("Select file or drop it here"), html.P("(*.csv, *.xls)")]),
             ),
             html.Div(
                 id="output-data-upload",
