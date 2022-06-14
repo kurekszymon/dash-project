@@ -17,6 +17,9 @@ def is_figure(obj):
 def format_render_vis(fig, vis=error_component("Define dataset and visualisation")):
     """Designed for render_vis function, returns 4 values, as needed for Dash Outputs,
     `could be further refactored` to assign class instead of style"""
+    styles_vis = {}
+    styles_fig = {}
+
     if not vis:
         styles_vis = {"display": "none"}
         styles_fig = {"display": "block"}
