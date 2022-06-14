@@ -16,6 +16,8 @@ click==8.1.2
     # via
     #   black
     #   flask
+coverage[toml]==6.4.1
+    # via pytest-cov
 dash==2.3.1
     # via
     #   -r requirements.in
@@ -90,6 +92,10 @@ pylint==2.13.4
 pyparsing==3.0.9
     # via packaging
 pytest==7.1.2
+    # via
+    #   -r requirements.in
+    #   pytest-cov
+pytest-cov==3.0.0
     # via -r requirements.in
 python-dateutil==2.8.2
     # via pandas
@@ -108,6 +114,7 @@ toml==0.10.2
 tomli==2.0.1
     # via
     #   black
+    #   coverage
     #   pylint
     #   pytest
 tox==3.25.0

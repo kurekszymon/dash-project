@@ -5,4 +5,5 @@ pylint
 dash_bootstrap_components
 gunicorn
 pytest
+pytest-cov
 tox
