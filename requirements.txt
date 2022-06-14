@@ -30,6 +30,12 @@ dash-table==5.0.0
     # via dash
 dill==0.3.4
     # via pylint
+distlib==0.3.4
+    # via virtualenv
+filelock==3.7.1
+    # via
+    #   tox
+    #   virtualenv
 flask==2.1.1
     # via
     #   dash
@@ -57,7 +63,9 @@ mypy-extensions==0.4.3
 numpy==1.22.3
     # via pandas
 packaging==21.3
-    # via pytest
+    # via
+    #   pytest
+    #   tox
 pandas==1.4.2
     # via -r requirements.in
 pathspec==0.9.0
@@ -66,12 +74,17 @@ platformdirs==2.5.1
     # via
     #   black
     #   pylint
+    #   virtualenv
 plotly==5.6.0
     # via dash
 pluggy==1.0.0
-    # via pytest
+    # via
+    #   pytest
+    #   tox
 py==1.11.0
-    # via pytest
+    # via
+    #   pytest
+    #   tox
 pylint==2.13.4
     # via -r requirements.in
 pyparsing==3.0.9
@@ -86,13 +99,21 @@ six==1.16.0
     # via
     #   plotly
     #   python-dateutil
+    #   tox
+    #   virtualenv
 tenacity==8.0.1
     # via plotly
+toml==0.10.2
+    # via tox
 tomli==2.0.1
     # via
     #   black
     #   pylint
     #   pytest
+tox==3.25.0
+    # via -r requirements.in
+virtualenv==20.14.1
+    # via tox
 werkzeug==2.1.1
     # via flask
 wrapt==1.14.0
