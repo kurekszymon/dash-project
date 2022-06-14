@@ -6,6 +6,8 @@
 #
 astroid==2.11.2
     # via pylint
+attrs==21.4.0
+    # via pytest
 black==22.3.0
     # via -r requirements.in
 brotli==1.0.9
@@ -36,6 +38,8 @@ flask-compress==1.11
     # via dash
 gunicorn==20.1.0
     # via -r requirements.in
+iniconfig==1.1.1
+    # via pytest
 isort==5.10.1
     # via pylint
 itsdangerous==2.1.2
@@ -52,6 +56,8 @@ mypy-extensions==0.4.3
     # via black
 numpy==1.22.3
     # via pandas
+packaging==21.3
+    # via pytest
 pandas==1.4.2
     # via -r requirements.in
 pathspec==0.9.0
@@ -62,7 +68,15 @@ platformdirs==2.5.1
     #   pylint
 plotly==5.6.0
     # via dash
+pluggy==1.0.0
+    # via pytest
+py==1.11.0
+    # via pytest
 pylint==2.13.4
+    # via -r requirements.in
+pyparsing==3.0.9
+    # via packaging
+pytest==7.1.2
     # via -r requirements.in
 python-dateutil==2.8.2
     # via pandas
@@ -78,6 +92,7 @@ tomli==2.0.1
     # via
     #   black
     #   pylint
+    #   pytest
 werkzeug==2.1.1
     # via flask
 wrapt==1.14.0
